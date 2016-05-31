@@ -37,27 +37,24 @@ class MapModel {
     
     final func request(lat lat: Double, lon: Double, span: Double) {
         
-        guard self.mapItems.count < 30 else {
-            self.reload(span)
-            return
-        }
-        
-        ModelLoader.requestPhotos(lat: lat, lon: lon) { [weak self] array in
+        ModelLoader.requestPhotos(lat: lat, lon: lon, contains: { item in
+            return self.mapItems.contains(item)
+        }, closure: { [weak self] array in
             
             for item in array {
                 self?.mapItems.insert(item)
             }
             
             self?.reload(span)
-        }
+        })
     }
     
     
-    private var refreshTimestamp: NSTimeInterval = 0
+//    private var refreshTimestamp: NSTimeInterval = 0
     private func reload(span: Double) {
         
-        self.refreshTimestamp = NSDate().timeIntervalSince1970
-        let refreshTimestamp = self.refreshTimestamp
+//        self.refreshTimestamp = NSDate().timeIntervalSince1970
+//        let refreshTimestamp = self.refreshTimestamp
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             NSLog("finished \(self.mapItems.count)")
@@ -93,7 +90,7 @@ class MapModel {
             }
             
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                guard self?.refreshTimestamp == refreshTimestamp else { return }
+//                guard self?.refreshTimestamp == refreshTimestamp else { return }
                 self?.view?.refresh(annotations)
             }
         }

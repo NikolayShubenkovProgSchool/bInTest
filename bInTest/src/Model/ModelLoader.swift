@@ -40,7 +40,7 @@ class ModelLoader {
                                            delegate: nil,
                                            delegateQueue: ModelLoader.photoQueue)
     
-    static var photoTask: NSURLSessionTask?
+//    static var photoTask: NSURLSessionTask?
     
     static let locationSession = { () -> NSURLSession in
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -49,20 +49,20 @@ class ModelLoader {
     }()
     static let imageSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     
-    static func requestPhotos(lat lat: Double, lon: Double, closure: (array: [MapItem]) -> ()) {
+    static func requestPhotos(lat lat: Double, lon: Double, contains: (MapItem) -> (Bool), closure: (array: [MapItem]) -> ()) {
         
         guard let url = NSURL(string: "https://api.flickr.com/services/rest/?" +
             "format=json&method=flickr.photos.search&has_geo=true&" +
             "tags=cat&per_page=25" +
-            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=10&nojsoncallback=?") else {
+            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=5&nojsoncallback=?") else {
                 NSLog("error in request photos url")
                 return
         }
         
-        photoTask?.cancel()
+//        photoTask?.cancel()
         
         
-        photoTask = ModelLoader.photoSession.dataTaskWithURL(url) { data, response, error in
+        ModelLoader.photoSession.dataTaskWithURL(url) { data, response, error in
             guard let data = data where error == nil else {
                 NSLog("error in request photos callback \(error)")
                 return
@@ -86,16 +86,19 @@ class ModelLoader {
                             let farmId = item["farm"] as? Int,
                             let secret = item["secret"] as? String else { return }
                         
-                        let (lat, lon) = requestLocation(photo: photoId)
-                        
-                        guard lat != -1 && lon != -1 else { return }
-                        
-                        let mapItem = MapItem(photoId: photoId,
+                        var mapItem = MapItem(photoId: photoId,
                             serverId: serverId,
                             farmId: farmId,
                             secret: secret,
-                            lat: lat,
-                            lon: lon)
+                            lat: -1,
+                            lon: -1)
+                        
+                        guard !contains(mapItem) else { return }
+                        
+                        (mapItem.lat, mapItem.lon) = requestLocation(photo: photoId)
+                        
+                        guard mapItem.lat != -1 && mapItem.lon != -1 else { return }
+                        
                         resultArray.append(mapItem)
                     }
                 }
@@ -106,9 +109,9 @@ class ModelLoader {
                 NSLog("error in requst photos processing \(error)")
             }
             
-        }
+        }.resume()
         
-        photoTask?.resume()
+//        photoTask?.resume()
     }
     
     static func requestLocation(photo id: String) -> (lat: Double, lon: Double) {
