@@ -364,6 +364,7 @@
 				904DD1391CFD6E6A00DB4056 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

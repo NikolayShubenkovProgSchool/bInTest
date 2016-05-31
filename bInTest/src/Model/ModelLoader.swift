@@ -6,7 +6,7 @@
 //  Copyright © 2016 Naithar. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension NSURLSession {
     func synchronousDataTaskWithURL(url: NSURL) -> (NSData?, NSURLResponse?, NSError?) {
@@ -53,8 +53,8 @@ class ModelLoader {
         
         guard let url = NSURL(string: "https://api.flickr.com/services/rest/?" +
             "format=json&method=flickr.photos.search&has_geo=true&" +
-            "tags=cat&per_page=25" +
-            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=5&nojsoncallback=?") else {
+            "tags=cat&per_page=500" +
+            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=15&nojsoncallback=?") else {
                 NSLog("error in request photos url")
                 return
         }
@@ -156,7 +156,30 @@ class ModelLoader {
         }
     }
     
-    static func requestImage(photo data: MapItem) {
+    static func requestImage(photo data: MapItem, closure: (UIImage?) -> ()) {
         //http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
+        
+        guard let url = NSURL(string: "http://farm\(data.farmId).staticflickr.com/\(data.serverId)/\(data.photoId)_\(data.secret)_s.jpg") else {
+            dispatch_async(dispatch_get_main_queue()) {
+                closure(nil)
+            }
+            return
+        }
+        
+        ModelLoader.photoSession.dataTaskWithURL(url) { data, _, error in
+            guard let data = data where error == nil,
+                let image = UIImage(data: data) else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        closure(nil)
+                    }
+                    return
+            }
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                closure(image)
+            }
+            return
+        }.resume()
+        
     }
 }

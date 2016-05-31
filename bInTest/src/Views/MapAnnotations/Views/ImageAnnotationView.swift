@@ -12,6 +12,7 @@ import MapKit
 class ImageAnnotationView: MapAnnotationView {
     
     private(set) var imageView: UIImageView?
+    private var timestamp: NSTimeInterval = 0
     
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -35,6 +36,7 @@ class ImageAnnotationView: MapAnnotationView {
         let imageView = UIImageView(frame: self.bounds)
         imageView.layer.backgroundColor = UIColor.grayColor().CGColor
         imageView.layer.cornerRadius = 15
+        imageView.contentMode = .ScaleAspectFill
         imageView.layer.masksToBounds = false
         self.addSubview(imageView)
         
@@ -43,5 +45,17 @@ class ImageAnnotationView: MapAnnotationView {
     
     final override func resetAnnotation() {
         
+        self.imageView?.image = nil
+        guard let annotation = self.annotation as? MapAnnotation else { return }
+        
+        if case .Image(let item) = annotation.type {
+            self.timestamp = NSDate().timeIntervalSince1970
+            let timestamp = self.timestamp
+            ModelLoader.requestImage(photo: item) { [weak self] image in
+                guard self?.timestamp == timestamp else { return }
+                
+                self?.imageView?.image = image
+            }
+        }
     }
 }
