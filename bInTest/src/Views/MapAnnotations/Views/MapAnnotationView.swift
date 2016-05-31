@@ -10,17 +10,11 @@ import MapKit
 
 class MapAnnotationView: MKAnnotationView {
 
+    private var old: MapAnnotation?
+    private var new: MapAnnotation?
     override var annotation: MKAnnotation? {
         didSet {
-            guard let new = self.annotation as? MapAnnotation,
-                let old = oldValue as? MapAnnotation else {
-                        self.resetAnnotation()
-                    return
-            }
-            
-            if new.id != old.id {
-                self.resetAnnotation()
-            }
+            self.resetAnnotation()
         }
     }
     

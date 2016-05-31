@@ -44,7 +44,6 @@ class ImageAnnotationView: MapAnnotationView {
     }
     
     final override func resetAnnotation() {
-        
         self.imageView?.image = nil
         guard let annotation = self.annotation as? MapAnnotation else { return }
         

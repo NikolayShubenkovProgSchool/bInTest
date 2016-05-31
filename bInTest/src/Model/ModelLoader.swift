@@ -157,8 +157,6 @@ class ModelLoader {
     }
     
     static func requestImage(photo data: MapItem, closure: (UIImage?) -> ()) {
-        //http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
-        
         guard let url = NSURL(string: "http://farm\(data.farmId).staticflickr.com/\(data.serverId)/\(data.photoId)_\(data.secret)_s.jpg") else {
             dispatch_async(dispatch_get_main_queue()) {
                 closure(nil)
