@@ -54,7 +54,7 @@ class ModelLoader {
         guard let url = NSURL(string: "https://api.flickr.com/services/rest/?" +
             "format=json&method=flickr.photos.search&has_geo=true&" +
             "tags=cat&per_page=25" +
-            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=32&nojsoncallback=?") else {
+            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=10&nojsoncallback=?") else {
                 NSLog("error in request photos url")
                 return
         }

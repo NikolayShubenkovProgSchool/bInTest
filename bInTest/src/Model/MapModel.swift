@@ -37,7 +37,7 @@ class MapModel {
     
     final func request(lat lat: Double, lon: Double, span: Double) {
         
-        guard self.mapItems.count < 100 else {
+        guard self.mapItems.count < 30 else {
             self.reload(span)
             return
         }

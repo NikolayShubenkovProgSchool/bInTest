@@ -63,7 +63,7 @@ class MapViewController: UIViewController {
         let delta = Int(maxDimention / 55)
         let span = maxSpan / Double(delta)
         
-        self.mapModel?.request(lat: center.latitude, lon: center.longitude, span: span / 2)
+        self.mapModel?.request(lat: center.latitude, lon: center.longitude, span: span * span)
     }
 }
 
