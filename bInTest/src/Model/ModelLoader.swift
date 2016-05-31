@@ -32,7 +32,7 @@ class ModelLoader {
     static let photoQueue = { () -> NSOperationQueue in
         let operation = NSOperationQueue()
         operation.name = "photo"
-        operation.maxConcurrentOperationCount = 1
+        operation.maxConcurrentOperationCount = 10
        return operation
     }()
     
@@ -40,22 +40,31 @@ class ModelLoader {
                                            delegate: nil,
                                            delegateQueue: ModelLoader.photoQueue)
     
-    static let locationSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    static var photoTask: NSURLSessionTask?
+    
+    static let locationSession = { () -> NSURLSession in
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = 10
+       return NSURLSession(configuration: configuration)
+    }()
     static let imageSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     
     static func requestPhotos(lat lat: Double, lon: Double, closure: (array: [MapItem]) -> ()) {
         
         guard let url = NSURL(string: "https://api.flickr.com/services/rest/?" +
             "format=json&method=flickr.photos.search&has_geo=true&" +
-            "tags=cat&per_page=50" +
-            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=10&nojsoncallback=?") else {
+            "tags=cat&per_page=25" +
+            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=32&nojsoncallback=?") else {
                 NSLog("error in request photos url")
                 return
         }
         
-        ModelLoader.photoSession.dataTaskWithURL(url) { data, response, error in
+        photoTask?.cancel()
+        
+        
+        photoTask = ModelLoader.photoSession.dataTaskWithURL(url) { data, response, error in
             guard let data = data where error == nil else {
-                NSLog("error in request photos callback")
+                NSLog("error in request photos callback \(error)")
                 return
             }
             
@@ -67,6 +76,9 @@ class ModelLoader {
                 guard let array = photos["photo"] as? [[String: AnyObject]] else { return }
                 
                 var resultArray = [MapItem]()
+                
+                NSLog("started \(array.count)")
+                
                 for item in array {
                     autoreleasepool {
                         guard let photoId = item["id"] as? String,
@@ -94,7 +106,9 @@ class ModelLoader {
                 NSLog("error in requst photos processing \(error)")
             }
             
-        } .resume()
+        }
+        
+        photoTask?.resume()
     }
     
     static func requestLocation(photo id: String) -> (lat: Double, lon: Double) {

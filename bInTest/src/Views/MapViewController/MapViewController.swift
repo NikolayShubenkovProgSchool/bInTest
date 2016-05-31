@@ -12,7 +12,7 @@ import MapKit
 class MapViewController: UIViewController {
 
     private var mapModel: MapModel?
-    private var mapView: MKMapView?
+    private(set) var mapView: MKMapView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,8 +58,12 @@ class MapViewController: UIViewController {
         guard let mapView = self.mapView else { return }
         
         let center = mapView.region.center
-        let span = min(mapView.region.span.latitudeDelta, mapView.region.span.longitudeDelta)
-        self.mapModel?.request(lat: center.latitude, lon: center.longitude, span: span)
+        let maxSpan = min(mapView.region.span.latitudeDelta, mapView.region.span.longitudeDelta)
+        let maxDimention = min(mapView.frame.height, mapView.frame.width)
+        let delta = Int(maxDimention / 55)
+        let span = maxSpan / Double(delta)
+        
+        self.mapModel?.request(lat: center.latitude, lon: center.longitude, span: span / 2)
     }
 }
 

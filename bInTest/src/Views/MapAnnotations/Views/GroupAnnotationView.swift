@@ -11,6 +11,8 @@ import MapKit
 
 class GroupAnnotationView: MapAnnotationView {
     
+    private(set) var titleLabel: UILabel?
+    
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
     }
@@ -28,10 +30,44 @@ class GroupAnnotationView: MapAnnotationView {
     }
     
     private func commonInit() {
+        let title = UILabel()
         
+        title.layer.backgroundColor = UIColor.redColor().CGColor
+        title.layer.masksToBounds = false
+        title.textColor = UIColor.blackColor()
+        title.textAlignment = .Center
+        self.addSubview(title)
+        
+        self.titleLabel = title
     }
     
     final override func resetAnnotation() {
         
+        guard let annotation = self.annotation as? MapAnnotation else { return }
+        
+        if case .Group(let count) = annotation.type {
+            self.titleLabel?.text = "\(count)"
+        }
+    }
+    
+    private func resetSize() {
+        guard let title = self.titleLabel else { return }
+        title.sizeToFit()
+        let dimention = round(max(title.bounds.width, title.bounds.height) + 20)
+        let size = CGSize(width: dimention - 4, height: dimention - 4)
+        let origin = CGPoint(x: 2, y: 2)
+        title.frame = CGRect(origin: origin, size: size)
+        title.layer.cornerRadius = size.width / 2
+        
+        let mainSize = CGSize(width: dimention, height: dimention)
+        self.bounds.size = mainSize
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.resetSize()
+        
+        self.layoutIfNeeded()
     }
 }

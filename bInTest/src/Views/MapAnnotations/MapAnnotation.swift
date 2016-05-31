@@ -14,7 +14,7 @@ class MapAnnotation: MKPointAnnotation {
     enum Type {
         case Default
         case Group(count: Int)
-        case Image(id: Int)
+        case Image(item: MapItem)
     }
     
     var type: Type = .Default

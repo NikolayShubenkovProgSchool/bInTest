@@ -12,5 +12,9 @@ extension MapViewController {
     
     final func refresh(annotations: [MapAnnotation]) {
         
+        guard let map = self.mapView where annotations.count > 0 else { return }
+        
+        map.removeAnnotations(map.annotations)
+        map.addAnnotations(annotations)
     }
 }
