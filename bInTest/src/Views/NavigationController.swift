@@ -1,5 +1,5 @@
 //
-//  MapViewController.swift
+//  NavigationController.swift
 //  bInTest
 //
 //  Created by Sergey Minakov on 31.05.16.
@@ -8,10 +8,13 @@
 
 import UIKit
 
-class MapViewController: UIViewController {
+class NavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-}
 
+        self.navigationBar.translucent = false
+        self.navigationBar.tintColor = .blackColor()
+    }
+
+}

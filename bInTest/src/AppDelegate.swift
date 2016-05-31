@@ -22,7 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setupWindow() {
         let screenBounds = UIScreen.mainScreen().bounds
-        let root = MapViewController()
+        let viewController = MapViewController()
+        let root = NavigationController(rootViewController: viewController)
         let window = UIWindow(frame: screenBounds)
         window.rootViewController = root
         window.makeKeyAndVisible()
