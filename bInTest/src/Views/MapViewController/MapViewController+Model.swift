@@ -1,5 +1,5 @@
 //
-//  GroupAnnotationView.swift
+//  MapViewController+Model.swift
 //  bInTest
 //
 //  Created by Sergey Minakov on 31.05.16.
@@ -7,7 +7,10 @@
 //
 
 import UIKit
-import MapKit
 
-class GroupAnnotationView: MKAnnotationView {
+extension MapViewController {
+    
+    func refresh(annotations: [MapAnnotation]) {
+        
+    }
 }

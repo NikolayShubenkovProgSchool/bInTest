@@ -19,4 +19,14 @@ class MapAnnotation: MKPointAnnotation {
     
     var type: Type = .Default
 
+    var reuseId: String {
+        switch self.type {
+        case .Default:
+            return "default"
+        case .Image:
+            return "image"
+        case .Group:
+            return "group"
+        }
+    }
 }

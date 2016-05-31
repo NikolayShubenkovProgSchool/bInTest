@@ -10,13 +10,17 @@
 		904DD1301CFD6E6A00DB4056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 904DD12F1CFD6E6A00DB4056 /* Assets.xcassets */; };
 		904DD1331CFD6E6A00DB4056 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 904DD1311CFD6E6A00DB4056 /* LaunchScreen.storyboard */; };
 		904DD1401CFD729500DB4056 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD13B1CFD729500DB4056 /* AppDelegate.swift */; };
-		904DD1411CFD729500DB4056 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD13F1CFD729500DB4056 /* MapViewController.swift */; };
 		904DD1431CFD72BA00DB4056 /* MapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1421CFD72BA00DB4056 /* MapAnnotation.swift */; };
-		904DD1451CFD736000DB4056 /* GroupAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1441CFD736000DB4056 /* GroupAnnotationView.swift */; };
-		904DD1471CFD736800DB4056 /* ImageAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1461CFD736800DB4056 /* ImageAnnotationView.swift */; };
 		904DD1491CFD73AA00DB4056 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1481CFD73AA00DB4056 /* MapModel.swift */; };
 		904DD14B1CFD73CC00DB4056 /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD14A1CFD73CC00DB4056 /* MapItem.swift */; };
 		904DD14D1CFD741700DB4056 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD14C1CFD741700DB4056 /* NavigationController.swift */; };
+		904DD1561CFD76B800DB4056 /* MapViewController+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1531CFD76B800DB4056 /* MapViewController+Map.swift */; };
+		904DD1571CFD76B800DB4056 /* MapViewController+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1541CFD76B800DB4056 /* MapViewController+Model.swift */; };
+		904DD1581CFD76B800DB4056 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1551CFD76B800DB4056 /* MapViewController.swift */; };
+		904DD15C1CFD87D100DB4056 /* GroupAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD15A1CFD87D100DB4056 /* GroupAnnotationView.swift */; };
+		904DD15D1CFD87D100DB4056 /* ImageAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD15B1CFD87D100DB4056 /* ImageAnnotationView.swift */; };
+		904DD15F1CFD87E400DB4056 /* MapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD15E1CFD87E400DB4056 /* MapAnnotationView.swift */; };
+		904DD1611CFD884500DB4056 /* ModelLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1601CFD884500DB4056 /* ModelLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,13 +29,17 @@
 		904DD1321CFD6E6A00DB4056 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		904DD1341CFD6E6A00DB4056 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		904DD13B1CFD729500DB4056 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		904DD13F1CFD729500DB4056 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		904DD1421CFD72BA00DB4056 /* MapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapAnnotation.swift; sourceTree = "<group>"; };
-		904DD1441CFD736000DB4056 /* GroupAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupAnnotationView.swift; sourceTree = "<group>"; };
-		904DD1461CFD736800DB4056 /* ImageAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAnnotationView.swift; sourceTree = "<group>"; };
 		904DD1481CFD73AA00DB4056 /* MapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		904DD14A1CFD73CC00DB4056 /* MapItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
 		904DD14C1CFD741700DB4056 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		904DD1531CFD76B800DB4056 /* MapViewController+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MapViewController+Map.swift"; sourceTree = "<group>"; };
+		904DD1541CFD76B800DB4056 /* MapViewController+Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MapViewController+Model.swift"; sourceTree = "<group>"; };
+		904DD1551CFD76B800DB4056 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		904DD15A1CFD87D100DB4056 /* GroupAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupAnnotationView.swift; sourceTree = "<group>"; };
+		904DD15B1CFD87D100DB4056 /* ImageAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAnnotationView.swift; sourceTree = "<group>"; };
+		904DD15E1CFD87E400DB4056 /* MapAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapAnnotationView.swift; sourceTree = "<group>"; };
+		904DD1601CFD884500DB4056 /* ModelLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +93,9 @@
 		904DD13C1CFD729500DB4056 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				904DD1481CFD73AA00DB4056 /* MapModel.swift */,
 				904DD14A1CFD73CC00DB4056 /* MapItem.swift */,
+				904DD1481CFD73AA00DB4056 /* MapModel.swift */,
+				904DD1601CFD884500DB4056 /* ModelLoader.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -94,8 +103,8 @@
 		904DD13D1CFD729500DB4056 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				904DD1521CFD76B800DB4056 /* MapViewController */,
 				904DD13E1CFD729500DB4056 /* MapAnnotations */,
-				904DD13F1CFD729500DB4056 /* MapViewController.swift */,
 				904DD14C1CFD741700DB4056 /* NavigationController.swift */,
 			);
 			path = Views;
@@ -104,11 +113,30 @@
 		904DD13E1CFD729500DB4056 /* MapAnnotations */ = {
 			isa = PBXGroup;
 			children = (
+				904DD1591CFD87D100DB4056 /* Views */,
 				904DD1421CFD72BA00DB4056 /* MapAnnotation.swift */,
-				904DD1441CFD736000DB4056 /* GroupAnnotationView.swift */,
-				904DD1461CFD736800DB4056 /* ImageAnnotationView.swift */,
 			);
 			path = MapAnnotations;
+			sourceTree = "<group>";
+		};
+		904DD1521CFD76B800DB4056 /* MapViewController */ = {
+			isa = PBXGroup;
+			children = (
+				904DD1531CFD76B800DB4056 /* MapViewController+Map.swift */,
+				904DD1541CFD76B800DB4056 /* MapViewController+Model.swift */,
+				904DD1551CFD76B800DB4056 /* MapViewController.swift */,
+			);
+			path = MapViewController;
+			sourceTree = "<group>";
+		};
+		904DD1591CFD87D100DB4056 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				904DD15E1CFD87E400DB4056 /* MapAnnotationView.swift */,
+				904DD15A1CFD87D100DB4056 /* GroupAnnotationView.swift */,
+				904DD15B1CFD87D100DB4056 /* ImageAnnotationView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,13 +209,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				904DD1611CFD884500DB4056 /* ModelLoader.swift in Sources */,
+				904DD15F1CFD87E400DB4056 /* MapAnnotationView.swift in Sources */,
 				904DD1401CFD729500DB4056 /* AppDelegate.swift in Sources */,
+				904DD1571CFD76B800DB4056 /* MapViewController+Model.swift in Sources */,
+				904DD15C1CFD87D100DB4056 /* GroupAnnotationView.swift in Sources */,
+				904DD1561CFD76B800DB4056 /* MapViewController+Map.swift in Sources */,
 				904DD14D1CFD741700DB4056 /* NavigationController.swift in Sources */,
-				904DD1411CFD729500DB4056 /* MapViewController.swift in Sources */,
-				904DD1471CFD736800DB4056 /* ImageAnnotationView.swift in Sources */,
+				904DD1581CFD76B800DB4056 /* MapViewController.swift in Sources */,
 				904DD1431CFD72BA00DB4056 /* MapAnnotation.swift in Sources */,
 				904DD1491CFD73AA00DB4056 /* MapModel.swift in Sources */,
-				904DD1451CFD736000DB4056 /* GroupAnnotationView.swift in Sources */,
+				904DD15D1CFD87D100DB4056 /* ImageAnnotationView.swift in Sources */,
 				904DD14B1CFD73CC00DB4056 /* MapItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

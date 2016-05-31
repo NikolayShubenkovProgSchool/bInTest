@@ -26,7 +26,7 @@ class MapViewController: UIViewController {
     }
     
     private func setupNavigationItem() {
-        let refreshSelector = #selector(MapViewController.refresh(_:))
+        let refreshSelector = #selector(MapViewController.refreshBarAction(_:))
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: refreshSelector)
         self.navigationItem.rightBarButtonItem = refreshButton
     }
@@ -34,7 +34,9 @@ class MapViewController: UIViewController {
     private func setupMapView() {
         let bounds = self.view.bounds
         let mapView = MKMapView(frame: bounds)
+        mapView.delegate = self
         mapView.autoresizingMask = [ .FlexibleWidth, .FlexibleHeight ]
+        
         self.view.addSubview(mapView)
     }
 }
@@ -44,7 +46,7 @@ class MapViewController: UIViewController {
 
 extension MapViewController {
     
-    func refresh(button: UIBarButtonItem?) {
+    func refreshBarAction(button: UIBarButtonItem?) {
         
     }
 }
