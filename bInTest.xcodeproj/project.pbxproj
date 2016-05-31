@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		904DD1291CFD6E6A00DB4056 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1281CFD6E6A00DB4056 /* AppDelegate.swift */; };
-		904DD12B1CFD6E6A00DB4056 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD12A1CFD6E6A00DB4056 /* ViewController.swift */; };
-		904DD12E1CFD6E6A00DB4056 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 904DD12C1CFD6E6A00DB4056 /* Main.storyboard */; };
+		904DD12B1CFD6E6A00DB4056 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD12A1CFD6E6A00DB4056 /* MapViewController.swift */; };
 		904DD1301CFD6E6A00DB4056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 904DD12F1CFD6E6A00DB4056 /* Assets.xcassets */; };
 		904DD1331CFD6E6A00DB4056 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 904DD1311CFD6E6A00DB4056 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -17,8 +16,7 @@
 /* Begin PBXFileReference section */
 		904DD1251CFD6E6A00DB4056 /* bInTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bInTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		904DD1281CFD6E6A00DB4056 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		904DD12A1CFD6E6A00DB4056 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		904DD12D1CFD6E6A00DB4056 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		904DD12A1CFD6E6A00DB4056 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		904DD12F1CFD6E6A00DB4056 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		904DD1321CFD6E6A00DB4056 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		904DD1341CFD6E6A00DB4056 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,8 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				904DD1281CFD6E6A00DB4056 /* AppDelegate.swift */,
-				904DD12A1CFD6E6A00DB4056 /* ViewController.swift */,
-				904DD12C1CFD6E6A00DB4056 /* Main.storyboard */,
+				904DD12A1CFD6E6A00DB4056 /* MapViewController.swift */,
 				904DD12F1CFD6E6A00DB4056 /* Assets.xcassets */,
 				904DD1311CFD6E6A00DB4056 /* LaunchScreen.storyboard */,
 				904DD1341CFD6E6A00DB4056 /* Info.plist */,
@@ -124,7 +121,6 @@
 			files = (
 				904DD1331CFD6E6A00DB4056 /* LaunchScreen.storyboard in Resources */,
 				904DD1301CFD6E6A00DB4056 /* Assets.xcassets in Resources */,
-				904DD12E1CFD6E6A00DB4056 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +131,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				904DD12B1CFD6E6A00DB4056 /* ViewController.swift in Sources */,
+				904DD12B1CFD6E6A00DB4056 /* MapViewController.swift in Sources */,
 				904DD1291CFD6E6A00DB4056 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,14 +139,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		904DD12C1CFD6E6A00DB4056 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				904DD12D1CFD6E6A00DB4056 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		904DD1311CFD6E6A00DB4056 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -250,6 +238,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = bInTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = naithar.bInTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -261,6 +250,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = bInTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = naithar.bInTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
