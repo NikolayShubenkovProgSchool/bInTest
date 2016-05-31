@@ -31,7 +31,7 @@ class GroupAnnotationView: MapAnnotationView {
         
     }
     
-    override func resetAnnotation() {
+    final override func resetAnnotation() {
         
     }
 }

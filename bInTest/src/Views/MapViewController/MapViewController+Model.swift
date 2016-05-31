@@ -10,7 +10,7 @@ import UIKit
 
 extension MapViewController {
     
-    func refresh(annotations: [MapAnnotation]) {
+    final func refresh(annotations: [MapAnnotation]) {
         
     }
 }

@@ -10,8 +10,8 @@ import Foundation
 
 struct MapItem {
     
-    var photoId: Int
-    var serverId: Int
+    var photoId: String
+    var serverId: String
     var farmId: Int
     var secret: String
     

@@ -8,19 +8,138 @@
 
 import Foundation
 
+extension NSURLSession {
+    func synchronousDataTaskWithURL(url: NSURL) -> (NSData?, NSURLResponse?, NSError?) {
+        var data: NSData?, response: NSURLResponse?, error: NSError?
+        
+        let semaphore = dispatch_semaphore_create(0)
+        
+        dataTaskWithURL(url) {
+            data = $0; response = $1; error = $2
+            dispatch_semaphore_signal(semaphore)
+            }.resume()
+        
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        
+        return (data, response, error)
+    }
+}
+
 class ModelLoader {
     
-    func requestPhotos(lat lat: Double, lon: Double) {
-        //https://api.flickr.com/services/rest/?&format=json&method=flickr.photos.search&has_geo=true&tags=cat&api_key=b49d87bfd659c5768ab0eafa74f2b6a5&per_page=500&lat=55&lon=37&radius=32&nojsoncallback=?
-
+    static let apiKey = "b49d87bfd659c5768ab0eafa74f2b6a5"
+    
+    static let photoQueue = { () -> NSOperationQueue in
+        let operation = NSOperationQueue()
+        operation.name = "photo"
+        operation.maxConcurrentOperationCount = 1
+       return operation
+    }()
+    
+    static let photoSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+                                           delegate: nil,
+                                           delegateQueue: ModelLoader.photoQueue)
+    
+    static let locationSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    static let imageSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    
+    static func requestPhotos(lat lat: Double, lon: Double, closure: (array: [MapItem]) -> ()) {
+        
+        guard let url = NSURL(string: "https://api.flickr.com/services/rest/?" +
+            "format=json&method=flickr.photos.search&has_geo=true&" +
+            "tags=cat&per_page=50" +
+            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=10&nojsoncallback=?") else {
+                NSLog("error in request photos url")
+                return
+        }
+        
+        ModelLoader.photoSession.dataTaskWithURL(url) { data, response, error in
+            guard let data = data where error == nil else {
+                NSLog("error in request photos callback")
+                return
+            }
+            
+            do {
+                let parsedData = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+                
+                guard let json = parsedData as? [String : AnyObject] else { return }
+                guard let photos = json["photos"] as? [String : AnyObject] else { return }
+                guard let array = photos["photo"] as? [[String: AnyObject]] else { return }
+                
+                var resultArray = [MapItem]()
+                for item in array {
+                    autoreleasepool {
+                        guard let photoId = item["id"] as? String,
+                            let serverId = item["server"] as? String,
+                            let farmId = item["farm"] as? Int,
+                            let secret = item["secret"] as? String else { return }
+                        
+                        let (lat, lon) = requestLocation(photo: photoId)
+                        
+                        guard lat != -1 && lon != -1 else { return }
+                        
+                        let mapItem = MapItem(photoId: photoId,
+                            serverId: serverId,
+                            farmId: farmId,
+                            secret: secret,
+                            lat: lat,
+                            lon: lon)
+                        resultArray.append(mapItem)
+                    }
+                }
+                
+                closure(array: resultArray)
+                
+            } catch {
+                NSLog("error in requst photos processing \(error)")
+            }
+            
+        } .resume()
     }
     
-    func requestLocation(photo id: Int) {
-        //https://api.flickr.com/services/rest/?&format=json&method=flickr.photos.geo.getLocation&photo_id=27364138665&api_key=b49d87bfd659c5768ab0eafa74f2b6a5&per_page=50&nojsoncallback=?
-
+    static func requestLocation(photo id: String) -> (lat: Double, lon: Double) {
+        guard let url = NSURL(string: "https://api.flickr.com/services/rest/?" +
+            "format=json&method=flickr.photos.geo.getLocation&" +
+            "photo_id=\(id)&api_key=\(ModelLoader.apiKey)&nojsoncallback=?") else {
+                NSLog("error in request location url")
+                return (lat: -1, lon: -1)
+        }
+        
+        let (responseData, _, error) = ModelLoader.locationSession.synchronousDataTaskWithURL(url)
+        
+        guard let data = responseData where error == nil else {
+            NSLog("error in request location response")
+            return (lat: -1, lon: -1)
+        }
+        
+        do {
+            
+            let parsedData = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+            
+            guard let json = parsedData as? [String : AnyObject] else {
+                return (lat: -1, lon: -1)
+            }
+            
+            guard let photo = json["photo"] as? [String : AnyObject] else {
+                return (lat: -1, lon: -1)
+            }
+            
+            guard let location = photo["location"] as? [String : AnyObject] else {
+                return (lat: -1, lon: -1)
+            }
+            
+            
+            let lat = Double(location["latitude"] as? String ?? "") ?? -1
+            let lon = Double(location["longitude"] as? String ?? "") ?? -1
+            
+            return (lat: lat, lon: lon)
+        } catch {
+            NSLog("error in requst photos processing \(error)")
+            return (lat: -1, lon: -1)
+        }
     }
     
-    func requestImage(photo data: MapItem) {
+    static func requestImage(photo data: MapItem) {
         //http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
     }
 }

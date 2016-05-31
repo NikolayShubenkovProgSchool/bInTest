@@ -31,7 +31,7 @@ class ImageAnnotationView: MapAnnotationView {
         
     }
     
-    override func resetAnnotation() {
+    final override func resetAnnotation() {
         
     }
 }
