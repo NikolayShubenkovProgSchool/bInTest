@@ -37,36 +37,42 @@ class MapModel {
     
     final func request(lat lat: Double, lon: Double, span: Double) {
         
+        self.refreshTimestamp = NSDate().timeIntervalSince1970
+        self.reload(span)
+        
         ModelLoader.requestPhotos(lat: lat, lon: lon, contains: { item in
             return self.mapItems.contains(item)
         }, closure: { [weak self] array in
             
+            let count = self?.mapItems.count
             for item in array {
                 self?.mapItems.insert(item)
             }
             
+            guard count != self?.mapItems.count else { return }
             self?.reload(span)
         })
     }
     
     
-//    private var refreshTimestamp: NSTimeInterval = 0
+    private var refreshTimestamp: NSTimeInterval = 0
     private func reload(span: Double) {
         
-//        self.refreshTimestamp = NSDate().timeIntervalSince1970
-//        let refreshTimestamp = self.refreshTimestamp
+        
+        let refreshTimestamp = self.refreshTimestamp
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             NSLog("finished \(self.mapItems.count)")
-            
+            guard self.refreshTimestamp == refreshTimestamp else { return }
             
             var annotations = [MapAnnotation]()
             
             for item in self.mapItems {
-                
+                guard self.refreshTimestamp == refreshTimestamp else { return }
                 var foundGroupItem: MapAnnotation?
                 
                 let new = MapAnnotation()
+                new.id = "\(item.photoId)-\(item.farmId)-\(item.serverId)-\(item.secret)"
                 new.type = .Image(item: item)
                 new.coordinate = CLLocationCoordinate2D(latitude: item.lat, longitude: item.lon)
                 
@@ -90,7 +96,7 @@ class MapModel {
             }
             
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-//                guard self?.refreshTimestamp == refreshTimestamp else { return }
+                guard self?.refreshTimestamp == refreshTimestamp else { return }
                 self?.view?.refresh(annotations)
             }
         }

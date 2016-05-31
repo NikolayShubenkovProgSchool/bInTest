@@ -18,6 +18,7 @@ class MapAnnotation: MKPointAnnotation {
     }
     
     var type: Type = .Default
+    var id: String = ""
 
     var reuseId: String {
         switch self.type {

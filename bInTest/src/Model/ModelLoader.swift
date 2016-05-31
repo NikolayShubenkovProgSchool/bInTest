@@ -53,8 +53,8 @@ class ModelLoader {
         
         guard let url = NSURL(string: "https://api.flickr.com/services/rest/?" +
             "format=json&method=flickr.photos.search&has_geo=true&" +
-            "tags=cat&per_page=500" +
-            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=15&nojsoncallback=?") else {
+            "tags=cat&per_page=50" +
+            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=3&nojsoncallback=?") else {
                 NSLog("error in request photos url")
                 return
         }
@@ -175,8 +175,12 @@ class ModelLoader {
                     return
             }
             
-            dispatch_async(dispatch_get_main_queue()) {
+            if (NSThread.isMainThread()) {
                 closure(image)
+            } else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    closure(image)
+                }
             }
             return
         }.resume()

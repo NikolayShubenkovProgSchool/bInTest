@@ -12,7 +12,15 @@ class MapAnnotationView: MKAnnotationView {
 
     override var annotation: MKAnnotation? {
         didSet {
-            self.resetAnnotation()
+            guard let new = self.annotation as? MapAnnotation,
+                let old = oldValue as? MapAnnotation else {
+                        self.resetAnnotation()
+                    return
+            }
+            
+            if new.id != old.id {
+                self.resetAnnotation()
+            }
         }
     }
     
