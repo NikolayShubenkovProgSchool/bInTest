@@ -21,6 +21,8 @@
 		904DD15D1CFD87D100DB4056 /* ImageAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD15B1CFD87D100DB4056 /* ImageAnnotationView.swift */; };
 		904DD15F1CFD87E400DB4056 /* MapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD15E1CFD87E400DB4056 /* MapAnnotationView.swift */; };
 		904DD1611CFD884500DB4056 /* ModelLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1601CFD884500DB4056 /* ModelLoader.swift */; };
+		904DD1631CFEC24000DB4056 /* CLCoordinate+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1621CFEC24000DB4056 /* CLCoordinate+bInTest.swift */; };
+		904DD1651CFEC25C00DB4056 /* NSURLSession+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1641CFEC25C00DB4056 /* NSURLSession+bInTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		904DD15B1CFD87D100DB4056 /* ImageAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAnnotationView.swift; sourceTree = "<group>"; };
 		904DD15E1CFD87E400DB4056 /* MapAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapAnnotationView.swift; sourceTree = "<group>"; };
 		904DD1601CFD884500DB4056 /* ModelLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelLoader.swift; sourceTree = "<group>"; };
+		904DD1621CFEC24000DB4056 /* CLCoordinate+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLCoordinate+bInTest.swift"; sourceTree = "<group>"; };
+		904DD1641CFEC25C00DB4056 /* NSURLSession+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+bInTest.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,8 @@
 				904DD14A1CFD73CC00DB4056 /* MapItem.swift */,
 				904DD1481CFD73AA00DB4056 /* MapModel.swift */,
 				904DD1601CFD884500DB4056 /* ModelLoader.swift */,
+				904DD1621CFEC24000DB4056 /* CLCoordinate+bInTest.swift */,
+				904DD1641CFEC25C00DB4056 /* NSURLSession+bInTest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -211,8 +217,10 @@
 			files = (
 				904DD1611CFD884500DB4056 /* ModelLoader.swift in Sources */,
 				904DD15F1CFD87E400DB4056 /* MapAnnotationView.swift in Sources */,
+				904DD1631CFEC24000DB4056 /* CLCoordinate+bInTest.swift in Sources */,
 				904DD1401CFD729500DB4056 /* AppDelegate.swift in Sources */,
 				904DD1571CFD76B800DB4056 /* MapViewController+Model.swift in Sources */,
+				904DD1651CFEC25C00DB4056 /* NSURLSession+bInTest.swift in Sources */,
 				904DD15C1CFD87D100DB4056 /* GroupAnnotationView.swift in Sources */,
 				904DD1561CFD76B800DB4056 /* MapViewController+Map.swift in Sources */,
 				904DD14D1CFD741700DB4056 /* NavigationController.swift in Sources */,

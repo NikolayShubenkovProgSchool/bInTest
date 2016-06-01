@@ -9,36 +9,21 @@
 import Foundation
 import CoreLocation
 
+
 class MapModel {
     
     private var mapItems: Set<MapItem> = []
+    private var refreshTimestamp: NSTimeInterval = 0
     
     weak var view: MapViewController?
-//    
-//    subscript(index: Int) -> MapItem? {
-//        get {
-//            guard index > self.mapItems.count else {
-//                return nil
-//            }
-//            
-//            return self.mapItems[index]
-//        }
-//    }
     
     init(_ view: MapViewController?) {
         self.view = view
     }
     
-    private func radius(lat1: Double, lat2: Double, lng1: Double, lng2: Double) -> Double {
-        let latDelta = lat1-lat2;
-        let lonDelta = lng1-lng2;
-        return latDelta*latDelta + lonDelta*lonDelta;
-    }
-    
-    final func request(lat lat: Double, lon: Double, span: Double) {
-        
+    final func request(lat lat: Double, lon: Double, range: Double) {
         self.refreshTimestamp = NSDate().timeIntervalSince1970
-        self.reload(span)
+        self.reload(range)
         
         ModelLoader.requestPhotos(lat: lat, lon: lon, contains: { item in
             return self.mapItems.contains(item)
@@ -50,44 +35,39 @@ class MapModel {
             }
             
             guard count != self?.mapItems.count else { return }
-            self?.reload(span)
+            self?.reload(range)
         })
     }
     
-    
-    private var refreshTimestamp: NSTimeInterval = 0
-    private func reload(span: Double) {
-        
-        
+    private func reload(range: Double) {
         let refreshTimestamp = self.refreshTimestamp
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            NSLog("finished \(self.mapItems.count)")
-            guard self.refreshTimestamp == refreshTimestamp else { return }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
+            guard let strongSelf = self else { return }
+            NSLog("finished \(strongSelf.mapItems.count)")
+            guard strongSelf.refreshTimestamp == refreshTimestamp else { return }
             
             var annotations = [MapAnnotation]()
             
-            for item in self.mapItems {
-                guard self.refreshTimestamp == refreshTimestamp else { return }
+            for item in strongSelf.mapItems {
+                guard strongSelf.refreshTimestamp == refreshTimestamp else { return }
                 var foundGroupItem: MapAnnotation?
                 
                 let new = MapAnnotation()
-                new.id = "\(item.photoId)-\(item.farmId)-\(item.serverId)-\(item.secret)"
                 new.type = .Image(item: item)
                 new.coordinate = CLLocationCoordinate2D(latitude: item.lat, longitude: item.lon)
                 
                 for annotation in annotations {
-                    if self.radius(annotation.coordinate.latitude, lat2: new.coordinate.latitude, lng1: annotation.coordinate.longitude, lng2: new.coordinate.longitude) < span {
+                    if annotation.coordinate.range(to: new.coordinate) < range {
                         foundGroupItem = annotation
                         break
                     }
                 }
                 
                 if let group = foundGroupItem {
-                    switch group.type {
-                    case .Group(let count):
+                    if case .Group(let count) = group.type {
                         group.type = .Group(count: count + 1)
-                    default:
+                    } else {
                         group.type = .Group(count: 2)
                     }
                 } else {

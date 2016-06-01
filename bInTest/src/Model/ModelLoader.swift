@@ -8,23 +8,6 @@
 
 import UIKit
 
-extension NSURLSession {
-    func synchronousDataTaskWithURL(url: NSURL) -> (NSData?, NSURLResponse?, NSError?) {
-        var data: NSData?, response: NSURLResponse?, error: NSError?
-        
-        let semaphore = dispatch_semaphore_create(0)
-        
-        dataTaskWithURL(url) {
-            data = $0; response = $1; error = $2
-            dispatch_semaphore_signal(semaphore)
-            }.resume()
-        
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
-        
-        return (data, response, error)
-    }
-}
-
 class ModelLoader {
     
     static let apiKey = "b49d87bfd659c5768ab0eafa74f2b6a5"
@@ -32,15 +15,13 @@ class ModelLoader {
     static let photoQueue = { () -> NSOperationQueue in
         let operation = NSOperationQueue()
         operation.name = "photo"
-        operation.maxConcurrentOperationCount = 10
+        operation.maxConcurrentOperationCount = 1
        return operation
     }()
     
     static let photoSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
                                            delegate: nil,
                                            delegateQueue: ModelLoader.photoQueue)
-    
-//    static var photoTask: NSURLSessionTask?
     
     static let locationSession = { () -> NSURLSession in
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -58,9 +39,6 @@ class ModelLoader {
                 NSLog("error in request photos url")
                 return
         }
-        
-//        photoTask?.cancel()
-        
         
         ModelLoader.photoSession.dataTaskWithURL(url) { data, response, error in
             guard let data = data where error == nil else {
@@ -110,8 +88,6 @@ class ModelLoader {
             }
             
         }.resume()
-        
-//        photoTask?.resume()
     }
     
     static func requestLocation(photo id: String) -> (lat: Double, lon: Double) {
@@ -164,7 +140,7 @@ class ModelLoader {
             return
         }
         
-        ModelLoader.photoSession.dataTaskWithURL(url) { data, _, error in
+        ModelLoader.imageSession.dataTaskWithURL(url) { data, _, error in
             guard let data = data where error == nil,
                 let image = UIImage(data: data) else {
                     dispatch_async(dispatch_get_main_queue()) {
@@ -173,14 +149,9 @@ class ModelLoader {
                     return
             }
             
-            if (NSThread.isMainThread()) {
+            dispatch_async(dispatch_get_main_queue()) {
                 closure(image)
-            } else {
-                dispatch_async(dispatch_get_main_queue()) {
-                    closure(image)
-                }
             }
-            return
         }.resume()
         
     }
