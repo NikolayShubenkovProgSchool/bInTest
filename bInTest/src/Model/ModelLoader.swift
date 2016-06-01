@@ -19,7 +19,7 @@ class ModelLoader {
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         let queue = NSOperationQueue()
         queue.name = "photo"
-        queue.maxConcurrentOperationCount = 1
+        queue.maxConcurrentOperationCount = 5
         
         return NSURLSession(configuration: configuration,
                             delegate: nil,
@@ -83,9 +83,14 @@ class ModelLoader {
                             let farmId = item["farm"] as? Int,
                             let secret = item["secret"] as? String else { return }
                         
-                        let alreadyExists = contains(photoId: photoId, serverId: serverId, secret: secret, farmId: Int64(farmId))
                         
-                        guard !alreadyExists else { return }
+                        objc_sync_enter(self)
+                        let alreadyExists = contains(photoId: photoId, serverId: serverId, secret: secret, farmId: Int64(farmId))
+                        guard !alreadyExists else {
+                            objc_sync_exit(self)
+                            return
+                        }
+                        objc_sync_exit(self)
                         
                         guard let description = NSEntityDescription.entityForName("MapItem",
                             inManagedObjectContext:LocalStore.instance.context) else { return }
@@ -102,13 +107,23 @@ class ModelLoader {
 
                         guard mapItem.lat != -1 && mapItem.lon != -1 else { return }
 
-                        LocalStore.instance.context.insertObject(mapItem)
-                        
                         do {
-                            try LocalStore.instance.context.save()
+                            objc_sync_enter(self)
+                            let alreadyExists = contains(photoId: photoId, serverId: serverId, secret: secret, farmId: Int64(farmId))
+                            if alreadyExists {
+                                LocalStore.instance.context.deleteObject(mapItem)
+                            } else {
+                                LocalStore.instance.context.insertObject(mapItem)
+                            }
                             
-                        } catch {
-                            NSLog("Error when saving results: \(error)")
+                            do {
+                                try LocalStore.instance.context.save()
+                                
+                            } catch {
+                                NSLog("Error when saving results: \(error)")
+                            }
+                            
+                            objc_sync_exit(self)
                         }
                     }
                 }
