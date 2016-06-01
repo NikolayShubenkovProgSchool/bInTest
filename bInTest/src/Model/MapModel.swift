@@ -13,7 +13,7 @@ import CoreLocation
 class MapModel {
     
     private var mapItems: Set<MapItem> = []
-    private var refreshTimestamp: NSTimeInterval = 0
+    private var range: Double = 0
     
     weak var view: MapViewController?
     
@@ -22,8 +22,8 @@ class MapModel {
     }
     
     final func request(lat lat: Double, lon: Double, range: Double) {
-        self.refreshTimestamp = NSDate().timeIntervalSince1970
-        self.reload(range)
+        self.range = range
+        self.reload()
         
         ModelLoader.requestPhotos(lat: lat, lon: lon, contains: { item in
             return self.mapItems.contains(item)
@@ -35,22 +35,19 @@ class MapModel {
             }
             
             guard count != self?.mapItems.count else { return }
-            self?.reload(range)
+            self?.reload()
         })
     }
     
-    private func reload(range: Double) {
-        let refreshTimestamp = self.refreshTimestamp
+    private func reload() {
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
-            guard let strongSelf = self else { return }
+            guard let strongSelf = self where strongSelf.mapItems.count > 0 else { return }
             NSLog("finished \(strongSelf.mapItems.count)")
-            guard strongSelf.refreshTimestamp == refreshTimestamp else { return }
             
             var annotations = [MapAnnotation]()
             
             for item in strongSelf.mapItems {
-                guard strongSelf.refreshTimestamp == refreshTimestamp else { return }
                 var foundGroupItem: MapAnnotation?
                 
                 let new = MapAnnotation()
@@ -58,7 +55,7 @@ class MapModel {
                 new.coordinate = CLLocationCoordinate2D(latitude: item.lat, longitude: item.lon)
                 
                 for annotation in annotations {
-                    if annotation.coordinate.range(to: new.coordinate) < range {
+                    if annotation.coordinate.range(to: new.coordinate) < strongSelf.range {
                         foundGroupItem = annotation
                         break
                     }
@@ -76,7 +73,7 @@ class MapModel {
             }
             
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                guard self?.refreshTimestamp == refreshTimestamp else { return }
+                NSLog("displaying")
                 self?.view?.refresh(annotations)
             }
         }

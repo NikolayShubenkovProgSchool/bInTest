@@ -10,37 +10,48 @@ import UIKit
 
 class ModelLoader {
     
+    static let baseUrl = "https://api.flickr.com/services/rest/"
+    static let baseParameters = "format=json&&api_key=\(ModelLoader.apiKey)&nojsoncallback=?"
     static let apiKey = "b49d87bfd659c5768ab0eafa74f2b6a5"
     
-    static let photoQueue = { () -> NSOperationQueue in
-        let operation = NSOperationQueue()
-        operation.name = "photo"
-        operation.maxConcurrentOperationCount = 1
-       return operation
+    static let photoSession = { () -> NSURLSession in
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let queue = NSOperationQueue()
+        queue.name = "photo"
+        queue.maxConcurrentOperationCount = 5
+        
+        return NSURLSession(configuration: configuration,
+                            delegate: nil,
+                            delegateQueue: queue)
     }()
-    
-    static let photoSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
-                                           delegate: nil,
-                                           delegateQueue: ModelLoader.photoQueue)
     
     static let locationSession = { () -> NSURLSession in
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.timeoutIntervalForRequest = 10
-       return NSURLSession(configuration: configuration)
+        return NSURLSession(configuration: configuration)
     }()
-    static let imageSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    
+    
+    static let imageSession = { () -> NSURLSession in
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        return NSURLSession(configuration: configuration)
+    }()
+    
+    static func photosUrl(lat lat: Double, lon: Double) -> NSURL? {
+        return NSURL(string: "\(baseUrl)?\(baseParameters)" +
+            "&method=flickr.photos.search&has_geo=true&" +
+            "tags=cat&per_page=50" +
+            "&lat=\(lat)&lon=\(lon)&radius=3")
+    }
     
     static func requestPhotos(lat lat: Double, lon: Double, contains: (MapItem) -> (Bool), closure: (array: [MapItem]) -> ()) {
         
-        guard let url = NSURL(string: "https://api.flickr.com/services/rest/?" +
-            "format=json&method=flickr.photos.search&has_geo=true&" +
-            "tags=cat&per_page=50" +
-            "&api_key=\(ModelLoader.apiKey)&lat=\(lat)&lon=\(lon)&radius=3&nojsoncallback=?") else {
+        guard let url = self.photosUrl(lat: lat, lon: lon) else {
                 NSLog("error in request photos url")
                 return
         }
         
-        ModelLoader.photoSession.dataTaskWithURL(url) { data, response, error in
+        self.photoSession.dataTaskWithURL(url) { data, response, error in
             guard let data = data where error == nil else {
                 NSLog("error in request photos callback \(error)")
                 return
@@ -87,7 +98,7 @@ class ModelLoader {
                 NSLog("error in requst photos processing \(error)")
             }
             
-        }.resume()
+            }.resume()
     }
     
     static func requestLocation(photo id: String) -> (lat: Double, lon: Double) {
@@ -98,7 +109,7 @@ class ModelLoader {
                 return (lat: -1, lon: -1)
         }
         
-        let (responseData, _, error) = ModelLoader.locationSession.synchronousDataTaskWithURL(url)
+        let (responseData, _, error) = self.locationSession.synchronousDataTaskWithURL(url)
         
         guard let data = responseData where error == nil else {
             NSLog("error in request location response")
@@ -140,7 +151,7 @@ class ModelLoader {
             return
         }
         
-        ModelLoader.imageSession.dataTaskWithURL(url) { data, _, error in
+        self.imageSession.dataTaskWithURL(url) { data, _, error in
             guard let data = data where error == nil,
                 let image = UIImage(data: data) else {
                     dispatch_async(dispatch_get_main_queue()) {
@@ -152,7 +163,7 @@ class ModelLoader {
             dispatch_async(dispatch_get_main_queue()) {
                 closure(image)
             }
-        }.resume()
+            }.resume()
         
     }
 }
