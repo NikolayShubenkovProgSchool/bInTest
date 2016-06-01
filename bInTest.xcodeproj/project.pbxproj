@@ -23,6 +23,7 @@
 		904DD1611CFD884500DB4056 /* ModelLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1601CFD884500DB4056 /* ModelLoader.swift */; };
 		904DD1631CFEC24000DB4056 /* CLCoordinate+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1621CFEC24000DB4056 /* CLCoordinate+bInTest.swift */; };
 		904DD1651CFEC25C00DB4056 /* NSURLSession+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1641CFEC25C00DB4056 /* NSURLSession+bInTest.swift */; };
+		904DD1671CFED41A00DB4056 /* UIImage+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1661CFED41A00DB4056 /* UIImage+bInTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		904DD1601CFD884500DB4056 /* ModelLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelLoader.swift; sourceTree = "<group>"; };
 		904DD1621CFEC24000DB4056 /* CLCoordinate+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLCoordinate+bInTest.swift"; sourceTree = "<group>"; };
 		904DD1641CFEC25C00DB4056 /* NSURLSession+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+bInTest.swift"; sourceTree = "<group>"; };
+		904DD1661CFED41A00DB4056 /* UIImage+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+bInTest.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				904DD1601CFD884500DB4056 /* ModelLoader.swift */,
 				904DD1621CFEC24000DB4056 /* CLCoordinate+bInTest.swift */,
 				904DD1641CFEC25C00DB4056 /* NSURLSession+bInTest.swift */,
+				904DD1661CFED41A00DB4056 /* UIImage+bInTest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				904DD1431CFD72BA00DB4056 /* MapAnnotation.swift in Sources */,
 				904DD1491CFD73AA00DB4056 /* MapModel.swift in Sources */,
 				904DD15D1CFD87D100DB4056 /* ImageAnnotationView.swift in Sources */,
+				904DD1671CFED41A00DB4056 /* UIImage+bInTest.swift in Sources */,
 				904DD14B1CFD73CC00DB4056 /* MapItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

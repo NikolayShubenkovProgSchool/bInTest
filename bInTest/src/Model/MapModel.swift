@@ -43,7 +43,7 @@ class MapModel {
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
             guard let strongSelf = self where strongSelf.mapItems.count > 0 else { return }
-            NSLog("finished \(strongSelf.mapItems.count)")
+            NSLog("Current stored photos count: \(strongSelf.mapItems.count)")
             
             var annotations = [MapAnnotation]()
             
@@ -73,7 +73,7 @@ class MapModel {
             }
             
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                NSLog("displaying")
+                NSLog("Will display annotations")
                 self?.view?.refresh(annotations)
             }
         }

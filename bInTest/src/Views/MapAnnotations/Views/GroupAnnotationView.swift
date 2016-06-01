@@ -32,10 +32,14 @@ class GroupAnnotationView: MapAnnotationView {
     private func commonInit() {
         let title = UILabel()
         
-        title.layer.backgroundColor = UIColor.redColor().CGColor
-        title.layer.masksToBounds = false
         title.textColor = UIColor.blackColor()
         title.textAlignment = .Center
+        title.layer.masksToBounds = false
+        
+        self.layer.backgroundColor = UIColor.redColor().CGColor
+        self.layer.masksToBounds = false
+        self.layer.borderWidth = 3
+        self.layer.borderColor = UIColor.groupTableViewBackgroundColor().CGColor
         self.addSubview(title)
         
         self.titleLabel = title
@@ -57,10 +61,10 @@ class GroupAnnotationView: MapAnnotationView {
         let size = CGSize(width: dimention - 4, height: dimention - 4)
         let origin = CGPoint(x: 2, y: 2)
         title.frame = CGRect(origin: origin, size: size)
-        title.layer.cornerRadius = size.width / 2
         
         let mainSize = CGSize(width: dimention, height: dimention)
         self.bounds.size = mainSize
+        self.layer.cornerRadius = mainSize.width / 2
     }
     
     override func layoutSubviews() {

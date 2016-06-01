@@ -34,7 +34,7 @@ class ImageAnnotationView: MapAnnotationView {
         self.bounds.size = CGSize(width: 50, height: 50)
         
         let imageView = UIImageView(frame: self.bounds)
-        imageView.layer.backgroundColor = UIColor.grayColor().CGColor
+        imageView.layer.backgroundColor = UIColor.groupTableViewBackgroundColor().CGColor
         imageView.layer.cornerRadius = 15
         imageView.contentMode = .ScaleAspectFill
         imageView.layer.masksToBounds = false
@@ -52,7 +52,6 @@ class ImageAnnotationView: MapAnnotationView {
             let timestamp = self.timestamp
             ModelLoader.requestImage(photo: item) { [weak self] image in
                 guard self?.timestamp == timestamp else { return }
-                
                 self?.imageView?.image = image
             }
         }

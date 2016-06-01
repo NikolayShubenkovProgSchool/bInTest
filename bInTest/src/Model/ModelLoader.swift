@@ -38,35 +38,44 @@ class ModelLoader {
     }()
     
     static func photosUrl(lat lat: Double, lon: Double) -> NSURL? {
-        return NSURL(string: "\(baseUrl)?\(baseParameters)" +
+        return NSURL(string: "\(self.baseUrl)?\(self.baseParameters)" +
             "&method=flickr.photos.search&has_geo=true&" +
             "tags=cat&per_page=50" +
             "&lat=\(lat)&lon=\(lon)&radius=3")
     }
     
+    static func locationUrl(id photoId: String) -> NSURL? {
+        return NSURL(string: "\(self.baseUrl)?\(self.baseParameters)" +
+            "&method=flickr.photos.geo.getLocation&" +
+            "photo_id=\(photoId)")
+    }
+    
+    static func imageUrl(item data: MapItem) -> NSURL? {
+        return NSURL(string: "http://farm\(data.farmId).staticflickr.com/\(data.serverId)/\(data.photoId)_\(data.secret)_s.jpg")
+    }
+    
     static func requestPhotos(lat lat: Double, lon: Double, contains: (MapItem) -> (Bool), closure: (array: [MapItem]) -> ()) {
-        
         guard let url = self.photosUrl(lat: lat, lon: lon) else {
-                NSLog("error in request photos url")
-                return
+            NSLog("Can't build photos request URL")
+            return
         }
         
-        self.photoSession.dataTaskWithURL(url) { data, response, error in
+        let task = self.photoSession.dataTaskWithURL(url) { data, response, error in
             guard let data = data where error == nil else {
-                NSLog("error in request photos callback \(error)")
+                NSLog("Can't handle photos response data with error: \(error)")
                 return
             }
             
             do {
                 let parsedData = try NSJSONSerialization.JSONObjectWithData(data, options: [])
                 
-                guard let json = parsedData as? [String : AnyObject] else { return }
-                guard let photos = json["photos"] as? [String : AnyObject] else { return }
-                guard let array = photos["photo"] as? [[String: AnyObject]] else { return }
+                guard let json = parsedData as? [String : AnyObject],
+                    let photos = json["photos"] as? [String : AnyObject],
+                    let array = photos["photo"] as? [[String: AnyObject]] where array.count > 0 else { return }
                 
                 var resultArray = [MapItem]()
                 
-                NSLog("started \(array.count)")
+                NSLog("Started photos handling with count: \(array.count)")
                 
                 for item in array {
                     autoreleasepool {
@@ -93,77 +102,72 @@ class ModelLoader {
                 }
                 
                 closure(array: resultArray)
-                
             } catch {
-                NSLog("error in requst photos processing \(error)")
+                NSLog("Error in photos request json parsing: \(error)")
             }
-            
-            }.resume()
+        }
+        
+        task.resume()
     }
     
     static func requestLocation(photo id: String) -> (lat: Double, lon: Double) {
-        guard let url = NSURL(string: "https://api.flickr.com/services/rest/?" +
-            "format=json&method=flickr.photos.geo.getLocation&" +
-            "photo_id=\(id)&api_key=\(ModelLoader.apiKey)&nojsoncallback=?") else {
-                NSLog("error in request location url")
-                return (lat: -1, lon: -1)
+        guard let url = self.locationUrl(id: id) else {
+            NSLog("Can't build location request URL")
+            return (lat: -1, lon: -1)
         }
         
         let (responseData, _, error) = self.locationSession.synchronousDataTaskWithURL(url)
         
         guard let data = responseData where error == nil else {
-            NSLog("error in request location response")
+            NSLog("Can't handle location response data with error: \(error)")
             return (lat: -1, lon: -1)
         }
         
         do {
-            
             let parsedData = try NSJSONSerialization.JSONObjectWithData(data, options: [])
             
-            guard let json = parsedData as? [String : AnyObject] else {
-                return (lat: -1, lon: -1)
+            guard let json = parsedData as? [String : AnyObject],
+                let photo = json["photo"] as? [String : AnyObject],
+                let location = photo["location"] as? [String : AnyObject],
+                let latString = location["latitude"] as? String,
+                let lat = Double(latString),
+                let lonString = location["longitude"] as? String,
+                let lon = Double(lonString) else {
+                    NSLog("Can't handle parsed location request json")
+                    return (lat: -1, lon: -1)
             }
-            
-            guard let photo = json["photo"] as? [String : AnyObject] else {
-                return (lat: -1, lon: -1)
-            }
-            
-            guard let location = photo["location"] as? [String : AnyObject] else {
-                return (lat: -1, lon: -1)
-            }
-            
-            
-            let lat = Double(location["latitude"] as? String ?? "") ?? -1
-            let lon = Double(location["longitude"] as? String ?? "") ?? -1
             
             return (lat: lat, lon: lon)
         } catch {
-            NSLog("error in requst photos processing \(error)")
+            NSLog("Error in location request json parsing: \(error)")
             return (lat: -1, lon: -1)
         }
     }
     
     static func requestImage(photo data: MapItem, closure: (UIImage?) -> ()) {
-        guard let url = NSURL(string: "http://farm\(data.farmId).staticflickr.com/\(data.serverId)/\(data.photoId)_\(data.secret)_s.jpg") else {
-            dispatch_async(dispatch_get_main_queue()) {
-                closure(nil)
-            }
-            return
-        }
-        
-        self.imageSession.dataTaskWithURL(url) { data, _, error in
-            guard let data = data where error == nil,
-                let image = UIImage(data: data) else {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        closure(nil)
-                    }
-                    return
-            }
-            
+        let resultClosure = { (image: UIImage?) -> () in
             dispatch_async(dispatch_get_main_queue()) {
                 closure(image)
             }
-            }.resume()
+        }
         
+        guard let url = self.imageUrl(item: data) else {
+            resultClosure(nil)
+            return
+        }
+        
+        let task = self.imageSession.dataTaskWithURL(url) { data, _, error in
+            guard let data = data where error == nil,
+                let image = UIImage(data: data) else {
+                    resultClosure(nil)
+                    return
+            }
+            
+            let size = CGSize(width: 50, height: 50)
+            let resultImage = image.scaled(to: size).rounded(with: 15)
+            resultClosure(resultImage)
+        }
+        
+        task.resume()
     }
 }
