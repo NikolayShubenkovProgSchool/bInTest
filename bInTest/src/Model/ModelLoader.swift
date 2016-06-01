@@ -37,10 +37,10 @@ class ModelLoader {
         return NSURLSession(configuration: configuration)
     }()
     
-    static func photosUrl(lat lat: Double, lon: Double) -> NSURL? {
+    static func photosUrl(lat lat: Double, lon: Double, tag: String) -> NSURL? {
         return NSURL(string: "\(self.baseUrl)?\(self.baseParameters)" +
             "&method=flickr.photos.search&has_geo=true&" +
-            "tags=cat&per_page=50" +
+            "tags=\(tag)&per_page=50" +
             "&lat=\(lat)&lon=\(lon)&radius=3")
     }
     
@@ -55,7 +55,7 @@ class ModelLoader {
     }
     
     static func requestPhotos(lat lat: Double, lon: Double, contains: (MapItem) -> (Bool), closure: (array: [MapItem]) -> ()) {
-        guard let url = self.photosUrl(lat: lat, lon: lon) else {
+        guard let url = self.photosUrl(lat: lat, lon: lon, tag: "cat") else {
             NSLog("Can't build photos request URL")
             return
         }

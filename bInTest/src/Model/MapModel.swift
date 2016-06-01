@@ -63,9 +63,20 @@ class MapModel {
                 
                 if let group = foundGroupItem {
                     if case .Group(let count) = group.type {
-                        group.type = .Group(count: count + 1)
+                        let newCount = count + 1
+                        group.type = .Group(count: newCount)
+                        
+                        let lat = group.coordinate.latitude * Double(count) + new.coordinate.latitude
+                        let lon = group.coordinate.longitude * Double(count) + new.coordinate.longitude
+                        
+                        group.coordinate = CLLocationCoordinate2D(latitude: lat / Double(newCount), longitude: lon / Double(newCount))
                     } else {
                         group.type = .Group(count: 2)
+                        
+                        let lat = group.coordinate.latitude + new.coordinate.latitude
+                        let lon = group.coordinate.longitude + new.coordinate.longitude
+                        
+                        group.coordinate = CLLocationCoordinate2D(latitude: lat / 2, longitude: lon / 2)
                     }
                 } else {
                     annotations.append(new)
