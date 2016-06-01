@@ -15,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
         self.setupWindow()
         return true
     }
@@ -30,27 +29,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = window
     }
-
-    func applicationWillResignActive(application: UIApplication) {
-        
-    }
-
-    func applicationDidEnterBackground(application: UIApplication) {
-       
-    }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        
-    }
-
-    func applicationDidBecomeActive(application: UIApplication) {
-        
-    }
-
-    func applicationWillTerminate(application: UIApplication) {
-        
-    }
-
-
 }
 

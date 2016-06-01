@@ -8,12 +8,12 @@
 
 import Foundation
 import CoreLocation
-
+import CoreData
 
 class MapModel {
     
-    private var mapItems: Set<MapItem> = []
     private var range: Double = 0
+    private var prevCount = 0
     
     weak var view: MapViewController?
     
@@ -25,34 +25,42 @@ class MapModel {
         self.range = range
         self.reload()
         
-        ModelLoader.requestPhotos(lat: lat, lon: lon, contains: { item in
-            return self.mapItems.contains(item)
-        }, closure: { [weak self] array in
-            
-            let count = self?.mapItems.count
-            for item in array {
-                self?.mapItems.insert(item)
-            }
-            
-            guard count != self?.mapItems.count else { return }
-            self?.reload()
-        })
+        ModelLoader.requestPhotos(lat: lat, lon: lon, contains: { photoId, serverId, secret, farmId in
+            return LocalStore.instance.contains(photoId: photoId, serverId: serverId, secret: secret, farmId: farmId)
+            }, closure: { [weak self] in
+                let count = LocalStore.instance.count
+                if count != self?.prevCount {
+                    NSLog("Preparing for reload")
+                    self?.reload()
+                }
+                
+                self?.prevCount = count
+            })
     }
     
     private func reload() {
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
-            guard let strongSelf = self where strongSelf.mapItems.count > 0 else { return }
-            NSLog("Current stored photos count: \(strongSelf.mapItems.count)")
+            let request = NSFetchRequest(entityName: "MapItem")
+            
+            guard let result = try? LocalStore.instance.context.executeFetchRequest(request),
+                let mapItems = result as? [MapItem] else {
+                    NSLog("Couldn't request map items")
+                    return
+            }
+            
+            guard let strongSelf = self where mapItems.count > 0 else { return }
+            NSLog("Current stored photos count: \(mapItems.count)")
             
             var annotations = [MapAnnotation]()
             
-            for item in strongSelf.mapItems {
+            for item in mapItems {
                 var foundGroupItem: MapAnnotation?
                 
                 let new = MapAnnotation()
                 new.type = .Image(item: item)
-                new.coordinate = CLLocationCoordinate2D(latitude: item.lat, longitude: item.lon)
+                
+                new.coordinate = CLLocationCoordinate2D(latitude: item.lat,
+                                                        longitude: item.lon)
                 
                 for annotation in annotations {
                     if annotation.coordinate.range(to: new.coordinate) < strongSelf.range {

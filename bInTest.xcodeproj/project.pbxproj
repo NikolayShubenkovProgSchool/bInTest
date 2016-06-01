@@ -12,7 +12,6 @@
 		904DD1401CFD729500DB4056 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD13B1CFD729500DB4056 /* AppDelegate.swift */; };
 		904DD1431CFD72BA00DB4056 /* MapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1421CFD72BA00DB4056 /* MapAnnotation.swift */; };
 		904DD1491CFD73AA00DB4056 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1481CFD73AA00DB4056 /* MapModel.swift */; };
-		904DD14B1CFD73CC00DB4056 /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD14A1CFD73CC00DB4056 /* MapItem.swift */; };
 		904DD14D1CFD741700DB4056 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD14C1CFD741700DB4056 /* NavigationController.swift */; };
 		904DD1561CFD76B800DB4056 /* MapViewController+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1531CFD76B800DB4056 /* MapViewController+Map.swift */; };
 		904DD1571CFD76B800DB4056 /* MapViewController+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1541CFD76B800DB4056 /* MapViewController+Model.swift */; };
@@ -21,9 +20,13 @@
 		904DD15D1CFD87D100DB4056 /* ImageAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD15B1CFD87D100DB4056 /* ImageAnnotationView.swift */; };
 		904DD15F1CFD87E400DB4056 /* MapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD15E1CFD87E400DB4056 /* MapAnnotationView.swift */; };
 		904DD1611CFD884500DB4056 /* ModelLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1601CFD884500DB4056 /* ModelLoader.swift */; };
-		904DD1631CFEC24000DB4056 /* CLCoordinate+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1621CFEC24000DB4056 /* CLCoordinate+bInTest.swift */; };
-		904DD1651CFEC25C00DB4056 /* NSURLSession+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1641CFEC25C00DB4056 /* NSURLSession+bInTest.swift */; };
-		904DD1671CFED41A00DB4056 /* UIImage+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1661CFED41A00DB4056 /* UIImage+bInTest.swift */; };
+		904DD1821CFEEFED00DB4056 /* LocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD17D1CFEEFED00DB4056 /* LocalStore.swift */; };
+		904DD1831CFEEFED00DB4056 /* MapItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD17E1CFEEFED00DB4056 /* MapItem+CoreDataProperties.swift */; };
+		904DD1841CFEEFED00DB4056 /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD17F1CFEEFED00DB4056 /* MapItem.swift */; };
+		904DD1851CFEEFED00DB4056 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1801CFEEFED00DB4056 /* Model.xcdatamodeld */; };
+		904DD18A1CFEF00C00DB4056 /* CLCoordinate+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1871CFEF00C00DB4056 /* CLCoordinate+bInTest.swift */; };
+		904DD18B1CFEF00C00DB4056 /* NSURLSession+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1881CFEF00C00DB4056 /* NSURLSession+bInTest.swift */; };
+		904DD18C1CFEF00C00DB4056 /* UIImage+bInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD1891CFEF00C00DB4056 /* UIImage+bInTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,7 +37,6 @@
 		904DD13B1CFD729500DB4056 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		904DD1421CFD72BA00DB4056 /* MapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapAnnotation.swift; sourceTree = "<group>"; };
 		904DD1481CFD73AA00DB4056 /* MapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
-		904DD14A1CFD73CC00DB4056 /* MapItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
 		904DD14C1CFD741700DB4056 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		904DD1531CFD76B800DB4056 /* MapViewController+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MapViewController+Map.swift"; sourceTree = "<group>"; };
 		904DD1541CFD76B800DB4056 /* MapViewController+Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MapViewController+Model.swift"; sourceTree = "<group>"; };
@@ -43,9 +45,13 @@
 		904DD15B1CFD87D100DB4056 /* ImageAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAnnotationView.swift; sourceTree = "<group>"; };
 		904DD15E1CFD87E400DB4056 /* MapAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapAnnotationView.swift; sourceTree = "<group>"; };
 		904DD1601CFD884500DB4056 /* ModelLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelLoader.swift; sourceTree = "<group>"; };
-		904DD1621CFEC24000DB4056 /* CLCoordinate+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLCoordinate+bInTest.swift"; sourceTree = "<group>"; };
-		904DD1641CFEC25C00DB4056 /* NSURLSession+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+bInTest.swift"; sourceTree = "<group>"; };
-		904DD1661CFED41A00DB4056 /* UIImage+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+bInTest.swift"; sourceTree = "<group>"; };
+		904DD17D1CFEEFED00DB4056 /* LocalStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalStore.swift; sourceTree = "<group>"; };
+		904DD17E1CFEEFED00DB4056 /* MapItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MapItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		904DD17F1CFEEFED00DB4056 /* MapItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
+		904DD1811CFEEFED00DB4056 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		904DD1871CFEF00C00DB4056 /* CLCoordinate+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLCoordinate+bInTest.swift"; sourceTree = "<group>"; };
+		904DD1881CFEF00C00DB4056 /* NSURLSession+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+bInTest.swift"; sourceTree = "<group>"; };
+		904DD1891CFEF00C00DB4056 /* UIImage+bInTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+bInTest.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +95,7 @@
 		904DD13A1CFD729500DB4056 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				904DD1861CFEF00C00DB4056 /* Extensions */,
 				904DD13B1CFD729500DB4056 /* AppDelegate.swift */,
 				904DD13C1CFD729500DB4056 /* Model */,
 				904DD13D1CFD729500DB4056 /* Views */,
@@ -99,12 +106,9 @@
 		904DD13C1CFD729500DB4056 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				904DD14A1CFD73CC00DB4056 /* MapItem.swift */,
+				904DD17C1CFEEFED00DB4056 /* LocalStore */,
 				904DD1481CFD73AA00DB4056 /* MapModel.swift */,
 				904DD1601CFD884500DB4056 /* ModelLoader.swift */,
-				904DD1621CFEC24000DB4056 /* CLCoordinate+bInTest.swift */,
-				904DD1641CFEC25C00DB4056 /* NSURLSession+bInTest.swift */,
-				904DD1661CFED41A00DB4056 /* UIImage+bInTest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -131,9 +135,9 @@
 		904DD1521CFD76B800DB4056 /* MapViewController */ = {
 			isa = PBXGroup;
 			children = (
+				904DD1551CFD76B800DB4056 /* MapViewController.swift */,
 				904DD1531CFD76B800DB4056 /* MapViewController+Map.swift */,
 				904DD1541CFD76B800DB4056 /* MapViewController+Model.swift */,
-				904DD1551CFD76B800DB4056 /* MapViewController.swift */,
 			);
 			path = MapViewController;
 			sourceTree = "<group>";
@@ -146,6 +150,27 @@
 				904DD15B1CFD87D100DB4056 /* ImageAnnotationView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		904DD17C1CFEEFED00DB4056 /* LocalStore */ = {
+			isa = PBXGroup;
+			children = (
+				904DD17D1CFEEFED00DB4056 /* LocalStore.swift */,
+				904DD17E1CFEEFED00DB4056 /* MapItem+CoreDataProperties.swift */,
+				904DD17F1CFEEFED00DB4056 /* MapItem.swift */,
+				904DD1801CFEEFED00DB4056 /* Model.xcdatamodeld */,
+			);
+			path = LocalStore;
+			sourceTree = "<group>";
+		};
+		904DD1861CFEF00C00DB4056 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				904DD1871CFEF00C00DB4056 /* CLCoordinate+bInTest.swift */,
+				904DD1881CFEF00C00DB4056 /* NSURLSession+bInTest.swift */,
+				904DD1891CFEF00C00DB4056 /* UIImage+bInTest.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,20 +244,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				904DD1611CFD884500DB4056 /* ModelLoader.swift in Sources */,
+				904DD18C1CFEF00C00DB4056 /* UIImage+bInTest.swift in Sources */,
 				904DD15F1CFD87E400DB4056 /* MapAnnotationView.swift in Sources */,
-				904DD1631CFEC24000DB4056 /* CLCoordinate+bInTest.swift in Sources */,
+				904DD1821CFEEFED00DB4056 /* LocalStore.swift in Sources */,
+				904DD1831CFEEFED00DB4056 /* MapItem+CoreDataProperties.swift in Sources */,
 				904DD1401CFD729500DB4056 /* AppDelegate.swift in Sources */,
 				904DD1571CFD76B800DB4056 /* MapViewController+Model.swift in Sources */,
-				904DD1651CFEC25C00DB4056 /* NSURLSession+bInTest.swift in Sources */,
+				904DD1851CFEEFED00DB4056 /* Model.xcdatamodeld in Sources */,
 				904DD15C1CFD87D100DB4056 /* GroupAnnotationView.swift in Sources */,
+				904DD18A1CFEF00C00DB4056 /* CLCoordinate+bInTest.swift in Sources */,
 				904DD1561CFD76B800DB4056 /* MapViewController+Map.swift in Sources */,
 				904DD14D1CFD741700DB4056 /* NavigationController.swift in Sources */,
 				904DD1581CFD76B800DB4056 /* MapViewController.swift in Sources */,
 				904DD1431CFD72BA00DB4056 /* MapAnnotation.swift in Sources */,
 				904DD1491CFD73AA00DB4056 /* MapModel.swift in Sources */,
 				904DD15D1CFD87D100DB4056 /* ImageAnnotationView.swift in Sources */,
-				904DD1671CFED41A00DB4056 /* UIImage+bInTest.swift in Sources */,
-				904DD14B1CFD73CC00DB4056 /* MapItem.swift in Sources */,
+				904DD18B1CFEF00C00DB4056 /* NSURLSession+bInTest.swift in Sources */,
+				904DD1841CFEEFED00DB4056 /* MapItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,11 +365,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = bInTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = naithar.bInTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -349,11 +380,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = bInTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = naithar.bInTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};
@@ -379,6 +412,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		904DD1801CFEEFED00DB4056 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				904DD1811CFEEFED00DB4056 /* Model.xcdatamodel */,
+			);
+			currentVersion = 904DD1811CFEEFED00DB4056 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 904DD11D1CFD6E6A00DB4056 /* Project object */;
 }

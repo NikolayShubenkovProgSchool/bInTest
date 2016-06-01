@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ModelLoader {
     
@@ -18,7 +19,7 @@ class ModelLoader {
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         let queue = NSOperationQueue()
         queue.name = "photo"
-        queue.maxConcurrentOperationCount = 5
+        queue.maxConcurrentOperationCount = 1
         
         return NSURLSession(configuration: configuration,
                             delegate: nil,
@@ -51,10 +52,10 @@ class ModelLoader {
     }
     
     static func imageUrl(item data: MapItem) -> NSURL? {
-        return NSURL(string: "http://farm\(data.farmId).staticflickr.com/\(data.serverId)/\(data.photoId)_\(data.secret)_s.jpg")
+        return NSURL(string: "http://farm\(data.farmId).staticflickr.com/\(data.serverId ?? "")/\(data.photoId ?? "")_\(data.secret ?? "")_s.jpg")
     }
     
-    static func requestPhotos(lat lat: Double, lon: Double, contains: (MapItem) -> (Bool), closure: (array: [MapItem]) -> ()) {
+    static func requestPhotos(lat lat: Double, lon: Double, contains: (photoId: String, serverId: String, secret: String, farmId: Int64) -> (Bool), closure: () -> ()) {
         guard let url = self.photosUrl(lat: lat, lon: lon, tag: "cat") else {
             NSLog("Can't build photos request URL")
             return
@@ -73,8 +74,6 @@ class ModelLoader {
                     let photos = json["photos"] as? [String : AnyObject],
                     let array = photos["photo"] as? [[String: AnyObject]] where array.count > 0 else { return }
                 
-                var resultArray = [MapItem]()
-                
                 NSLog("Started photos handling with count: \(array.count)")
                 
                 for item in array {
@@ -84,24 +83,38 @@ class ModelLoader {
                             let farmId = item["farm"] as? Int,
                             let secret = item["secret"] as? String else { return }
                         
-                        var mapItem = MapItem(photoId: photoId,
-                            serverId: serverId,
-                            farmId: farmId,
-                            secret: secret,
-                            lat: -1,
-                            lon: -1)
+                        let alreadyExists = contains(photoId: photoId, serverId: serverId, secret: secret, farmId: Int64(farmId))
                         
-                        guard !contains(mapItem) else { return }
+                        guard !alreadyExists else { return }
                         
+                        guard let description = NSEntityDescription.entityForName("MapItem",
+                            inManagedObjectContext:LocalStore.instance.context) else { return }
+                        
+                        let mapItem = MapItem(entity: description, insertIntoManagedObjectContext: nil)
+                        mapItem.photoId = photoId
+                        mapItem.serverId = serverId
+                        mapItem.farmId = Int64(farmId)
+                        mapItem.secret = secret
+                        mapItem.lat = -1
+                        mapItem.lon = -1
+
                         (mapItem.lat, mapItem.lon) = requestLocation(photo: photoId)
-                        
+
                         guard mapItem.lat != -1 && mapItem.lon != -1 else { return }
+
+                        LocalStore.instance.context.insertObject(mapItem)
                         
-                        resultArray.append(mapItem)
+                        do {
+                            try LocalStore.instance.context.save()
+                            
+                        } catch {
+                            NSLog("Error when saving results: \(error)")
+                        }
                     }
                 }
                 
-                closure(array: resultArray)
+               
+                closure()
             } catch {
                 NSLog("Error in photos request json parsing: \(error)")
             }

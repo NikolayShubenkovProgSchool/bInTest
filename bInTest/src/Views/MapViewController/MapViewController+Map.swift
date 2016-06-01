@@ -12,7 +12,6 @@ import MapKit
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        
         guard let annotation = annotation as? MapAnnotation else { return nil }
         
         if case .Default = annotation.type {

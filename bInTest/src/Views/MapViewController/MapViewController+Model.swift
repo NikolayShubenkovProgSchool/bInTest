@@ -16,4 +16,21 @@ extension MapViewController {
         map.removeAnnotations(map.annotations)
         map.addAnnotations(annotations)
     }
+    
+    final func reload() {
+        guard let mapView = self.mapView else { return }
+        
+        let center = mapView.region.center
+        let latitudeDimension = mapView.region.span.latitudeDelta
+        let longitudeDimension = mapView.region.span.longitudeDelta
+        let maxDimension = max(mapView.bounds.height, mapView.bounds.width)
+        let delta = Double(maxDimension) / 50.0
+        
+        let latDelta = latitudeDimension / delta
+        let lonDelta = longitudeDimension / delta
+        
+        let range = latDelta * latDelta + lonDelta * lonDelta
+        
+        self.mapModel?.request(lat: center.latitude, lon: center.longitude, range: range)
+    }
 }

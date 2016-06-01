@@ -9,6 +9,7 @@
 import Foundation
 
 extension NSURLSession {
+    
     func synchronousDataTaskWithURL(url: NSURL) -> (NSData?, NSURLResponse?, NSError?) {
         var data: NSData?, response: NSURLResponse?, error: NSError?
         
